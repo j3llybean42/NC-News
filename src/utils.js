@@ -21,3 +21,7 @@ export function getComments(article_id){
         return response.data
     })
 }
+
+export function patchArticle(article_id, request){
+    return ncNewsAPI.patch(`/articles/${article_id}`, request)
+}

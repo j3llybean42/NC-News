@@ -1,6 +1,6 @@
-import { Card, Stack, Badge } from "react-bootstrap";
+import { Card, Stack, Badge, Button } from "react-bootstrap";
 import { LuDot } from "react-icons/lu";
-import { LuVote } from "react-icons/lu";
+import { FaRegArrowAltCircleUp, FaRegArrowAltCircleDown } from "react-icons/fa";
 
 export default function CommentCard({ comment }) {
   const dateCreated = new Date(comment.created_at);
@@ -16,7 +16,7 @@ export default function CommentCard({ comment }) {
           <Card.Text>{comment.body}</Card.Text>
           <Stack direction="horizontal" gap={2}>
             <Badge bg="primary">
-              <LuVote /> {comment.votes}
+            <Button size="sm"><FaRegArrowAltCircleUp /></Button> {comment.votes} <Button size="sm"><FaRegArrowAltCircleDown /></Button>
             </Badge>
           </Stack>
         </Card.Body>
