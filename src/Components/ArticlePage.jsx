@@ -9,13 +9,32 @@ import CommentsList from "./CommentsList";
 export default function ArticlePage() {
   const [currentArticle, setCurrentArticle] = useState({});
   const { article_id } = useParams();
+  const [isError, setIsError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     getArticleID(article_id).then((data) => {
       const { article } = data;
       setCurrentArticle(article);
-    });
-  }, []);
+    }).catch(() => {
+        setIsLoading(false)
+        setIsError(true)
+    })
+}, [])
+
+if(isLoading) {
+    return (
+    <>
+    <Spinner animation="border" variant="dark" /><p>Loading...</p>
+    </>)}
+
+if(isError) {
+    return(
+        <>
+        <TfiFaceSad /><p>Something went wrong! Please try again.</p>
+        </>
+    )
+}
 
   let date = null;
 
