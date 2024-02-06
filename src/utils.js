@@ -10,8 +10,14 @@ export function getArticles() {
     })
 }
 
-export function getArticleID(chosenArticleID){
-    return ncNewsAPI.get(`/articles/${chosenArticleID}`).then((response) => {
+export function getArticleID(article_id){
+    return ncNewsAPI.get(`/articles/${article_id}`).then((response) => {
+        return response.data
+    })
+}
+
+export function getComments(article_id){
+    return ncNewsAPI.get(`/articles/${article_id}/comments`).then((response) => {
         return response.data
     })
 }

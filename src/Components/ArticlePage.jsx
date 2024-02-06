@@ -4,6 +4,7 @@ import { Card, Stack, Badge } from "react-bootstrap";
 import { FaRegComments } from "react-icons/fa";
 import { LuVote } from "react-icons/lu";
 import { useParams } from "react-router-dom";
+import CommentsList from "./CommentsList";
 
 export default function ArticlePage() {
   const [currentArticle, setCurrentArticle] = useState({});
@@ -41,6 +42,9 @@ export default function ArticlePage() {
         </Card.Header>
         <Card.Body>{currentArticle.body}</Card.Body>
       </Card>
+      <div>
+        <CommentsList article_id={article_id}/>
+      </div>
     </>
   );
 }
