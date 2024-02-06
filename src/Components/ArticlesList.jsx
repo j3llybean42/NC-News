@@ -36,13 +36,11 @@ export default function ArticlesList({articles, setArticles}) {
     }
 
     return (
-        <div>
+        <section>
             <h2>Articles</h2>
-            <ul>
                 {articles.map((article) => {
-                    return <li key={article.article_id}><ArticleCard article={article}/></li>
+                    return <ArticleCard key={article.article_id} article={article}/>
                 })}
-            </ul>
-        </div>
+        </section>
     )
 }
