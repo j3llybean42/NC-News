@@ -9,3 +9,9 @@ export function getArticles() {
         return response.data
     })
 }
+
+export function getArticleID(chosenArticleID){
+    return ncNewsAPI.get(`/articles/${chosenArticleID}`).then((response) => {
+        return response.data
+    })
+}
