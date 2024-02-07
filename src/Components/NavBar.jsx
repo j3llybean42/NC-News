@@ -1,17 +1,16 @@
-import { Form, Nav, Navbar, NavDropdown} from 'react-bootstrap'
+import { AppBar, Box, Button, Toolbar, Typography } from '@mui/material';
 
 export default function NavBar() {
   return (
     <>
-      <Navbar bg="dark" data-bs-theme="dark">
-        <Nav>
-          <Nav.Link href="/">Home</Nav.Link>
-          <Nav.Link href="/articles">All Articles</Nav.Link>
-          <NavDropdown title="Topics" id="basic-nav-dropdown">
-            <NavDropdown.Item href="/topics">All Topics</NavDropdown.Item>
-          </NavDropdown>
-        </Nav>
-      </Navbar>
+      <Box sx={{flexgrow: 1}}>
+        <AppBar position="static">
+          <Toolbar>
+            <Button color="inherit" href="/">Home</Button>
+            <Button color="inherit" href="/articles">All Articles</Button>
+          </Toolbar>
+        </AppBar>
+      </Box>
     </>
   );
 }

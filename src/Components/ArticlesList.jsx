@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
 import { getArticles } from "../utils"
 import ArticleCard from "./ArticleCard"
-import { Spinner } from "react-bootstrap";
 import { TfiFaceSad } from "react-icons/tfi";
+import { CircularProgress } from "@mui/material";
 
 export default function ArticlesList({articles, setArticles}) {
     const [isError, setIsError] = useState(false);
@@ -24,7 +24,7 @@ export default function ArticlesList({articles, setArticles}) {
     if(isLoading) {
         return (
         <>
-        <Spinner animation="border" variant="dark" /><p>Loading...</p>
+        <CircularProgress/><p>Loading...</p>
         </>)}
 
     if(isError) {
