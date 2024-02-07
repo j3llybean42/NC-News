@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { getArticleID } from "../utils";
 import { useParams } from "react-router-dom";
 import CommentsList from "./CommentsList";
@@ -6,16 +6,21 @@ import { TfiFaceSad } from "react-icons/tfi";
 import { patchArticle } from "../utils";
 import { CardHeader, ButtonGroup, Card, CardMedia, Chip, IconButton, CardContent, Typography} from "@mui/material";
 import ForumIcon from '@mui/icons-material/Forum';
-import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
-import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
+import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
+import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
+import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
+import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
+import { UserContext } from "../contexts/UserContext";
 
 export default function ArticlePage() {
+  const { user } = useContext(UserContext);
   const [currentArticle, setCurrentArticle] = useState({});
   const { article_id } = useParams();
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [votes, setVotes] = useState(currentArticle.votes);
   const [error, setError] = useState(null);
+  const [userVote, setUserVote] = useState(null);
 
   useEffect(() => {
     getArticleID(article_id)
@@ -31,12 +36,14 @@ export default function ArticlePage() {
   }, []);
 
   function handleVoteClick(vote) {
+    setUserVote(!userVote ? vote : null);
     setError(null);
     setVotes((currentVotes) => currentVotes + vote);
     patchArticle(currentArticle.article_id, { inc_votes: vote }).catch(
       (error) => {
         setVotes((currentVotes) => currentVotes - vote);
         setError("Something went wrong! Please try again");
+        setUserVote(null);
       }
     );
   }
@@ -76,23 +83,26 @@ export default function ArticlePage() {
             <>
               <Chip icon={<ForumIcon />} label={currentArticle.comment_count} />
               <ButtonGroup variant="contained" aria-label="Basic button group">
-                <IconButton
-                  onClick={() => handleVoteClick(1)}
-                  aria-label="thumbs up"
-                  colour="primary"
-                  size="small"
-                >
-                  <ThumbUpAltIcon />
-                </IconButton>
-                <p>{votes}</p>
-                <IconButton
-                  onClick={() => handleVoteClick(-1)}
-                  aria-label="thumbs down"
-                  colour="secondary"
-                  size="small"
-                >
-                  <ThumbDownAltIcon />
-                </IconButton>
+              <IconButton
+              onClick={() => handleVoteClick(userVote ? -1 : 1)}
+              aria-label={userVote === 1 ? "remove vote up" : "vote up"}
+              disabled={userVote === -1 ? true : false}
+              colour="primary"
+              size="small"
+            >
+              {userVote === 1 ? (<ThumbUpAltIcon />) : (<ThumbUpOffAltIcon/>)}
+              
+            </IconButton>
+            <p>{votes}</p>
+            <IconButton
+              onClick={() => handleVoteClick(userVote ? 1 : -1)}
+              aria-label={userVote === -1 ? "remove vote down" : "vote down"}
+              disabled={userVote === 1 ? true : false}
+              colour="secondary"
+              size="small"
+            >
+             {userVote === -1 ? (<ThumbDownAltIcon />) : (<ThumbDownOffAltIcon />)}
+            </IconButton>
               </ButtonGroup>
             </>
           }
