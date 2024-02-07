@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react";
 import { getArticleID } from "../utils";
-import { Card, Stack, Badge, Button } from "react-bootstrap";
-import {
-  FaRegComments,
-  FaRegArrowAltCircleUp,
-  FaRegArrowAltCircleDown,
-} from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import CommentsList from "./CommentsList";
 import { TfiFaceSad } from "react-icons/tfi";
 import { patchArticle } from "../utils";
+import { CardHeader, ButtonGroup, Card, CardMedia, Chip, IconButton, CardContent, Typography} from "@mui/material";
+import ForumIcon from '@mui/icons-material/Forum';
+import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
+import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 
 export default function ArticlePage() {
   const [currentArticle, setCurrentArticle] = useState({});
@@ -24,7 +22,7 @@ export default function ArticlePage() {
       .then((data) => {
         const { article } = data;
         setCurrentArticle(article);
-        setVotes(article.votes)
+        setVotes(article.votes);
       })
       .catch(() => {
         setIsLoading(false);
@@ -35,10 +33,12 @@ export default function ArticlePage() {
   function handleVoteClick(vote) {
     setError(null);
     setVotes((currentVotes) => currentVotes + vote);
-    patchArticle(currentArticle.article_id, { inc_votes: vote }).catch((error) => {
-      setVotes((currentVotes) => currentVotes - vote);
-      setError("Something went wrong! Please try again");
-    });
+    patchArticle(currentArticle.article_id, { inc_votes: vote }).catch(
+      (error) => {
+        setVotes((currentVotes) => currentVotes - vote);
+        setError("Something went wrong! Please try again");
+      }
+    );
   }
 
   if (isLoading) {
@@ -70,31 +70,45 @@ export default function ArticlePage() {
       <h2>{currentArticle.title}</h2>
       <h3>Written by: {currentArticle.author}</h3>
       <Card>
-        <Card.Header>
-          Date posted: {date} Topic: {currentArticle.topic}
-          <Stack direction="horizontal" gap={2}>
-            <Badge bg="primary">
-              <FaRegComments /> {currentArticle.comment_count}
-            </Badge>
-            <Badge bg="primary">
-              <Button size="sm" onClick={() => handleVoteClick(1)}>
-                <FaRegArrowAltCircleUp />
-              </Button>{" "}
-              {votes}{" "}
-              <Button size="sm" onClick={() => handleVoteClick(-1)}>
-                <FaRegArrowAltCircleDown />
-              </Button>
-            </Badge>
-          </Stack>
-        </Card.Header>
-        <Card.Body>{currentArticle.body}</Card.Body>
+        <CardHeader
+          subheader={`Date posted: ${date}`}
+          action={
+            <>
+              <Chip icon={<ForumIcon />} label={currentArticle.comment_count} />
+              <ButtonGroup variant="contained" aria-label="Basic button group">
+                <IconButton
+                  onClick={() => handleVoteClick(1)}
+                  aria-label="thumbs up"
+                  colour="primary"
+                  size="small"
+                >
+                  <ThumbUpAltIcon />
+                </IconButton>
+                <p>{votes}</p>
+                <IconButton
+                  onClick={() => handleVoteClick(-1)}
+                  aria-label="thumbs down"
+                  colour="secondary"
+                  size="small"
+                >
+                  <ThumbDownAltIcon />
+                </IconButton>
+              </ButtonGroup>
+            </>
+          }
+        />
+        <CardMedia component="img" height="350" image={currentArticle.article_img_url}/>
+        <CardContent>
+          <Typography variant="body1" >{currentArticle.body}</Typography>
+        </CardContent>
       </Card>
       {error ? (
-          <p>
-            <TfiFaceSad />
-            {error}
-          </p>
-        ) : null}
+        <p>
+          <TfiFaceSad />
+          {error}
+        </p>
+      ) : null}
+      <br/>
       <div>
         <CommentsList article_id={article_id} />
       </div>

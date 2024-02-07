@@ -1,13 +1,12 @@
 import { useState } from "react";
-import { Badge, Button, Card, Stack } from "react-bootstrap";
-import {
-  FaRegComments,
-  FaRegArrowAltCircleUp,
-  FaRegArrowAltCircleDown,
-} from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { patchArticle } from "../utils";
+import { LuDot } from "react-icons/lu";
 import { TfiFaceSad } from "react-icons/tfi";
+import {Button, ButtonGroup, Card, CardActions, CardContent, CardMedia, Chip, IconButton, Typography} from "@mui/material"
+import ForumIcon from '@mui/icons-material/Forum';
+import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
+import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 
 export default function ArticleCard({ article }) {
   const dateCreated = new Date(article.created_at);
@@ -15,10 +14,6 @@ export default function ArticleCard({ article }) {
   const navigate = useNavigate();
   const [votes, setVotes] = useState(article.votes);
   const [error, setError] = useState(null);
-
-  function handleClick() {
-    navigate(`/articles/${article.article_id}`);
-  }
 
   function handleVoteClick(vote) {
     setError(null);
@@ -31,33 +26,20 @@ export default function ArticleCard({ article }) {
 
   return (
     <div>
-      <Card bg="dark" text="light">
-        <Card.Body>
-          <Card.Title>{article.title}</Card.Title>
-          <Card.Subtitle>Written by: {article.author}</Card.Subtitle>
-          <Card.Img src={article.article_img_url} />
-          <Card.Text>
-            Topic: {article.topic} Date posted: {date}
-          </Card.Text>
-          <Stack direction="horizontal" gap={2}>
-            <Button variant="outline-primary" onClick={handleClick}>
-              Read Article
-            </Button>
-            <Badge bg="primary">
-              <FaRegComments /> {article.comment_count}
-            </Badge>
-            <Badge bg="primary">
-              <Button size="sm" onClick={() => handleVoteClick(1)}>
-                <FaRegArrowAltCircleUp />
-              </Button>{" "}
-              {votes}{" "}
-              <Button size="sm" onClick={() => handleVoteClick(-1)}>
-                <FaRegArrowAltCircleDown />
-              </Button>
-            </Badge>
-          </Stack>
-        </Card.Body>
-        
+      <Card >
+        <CardMedia sx={{height: 200}} image={article.article_img_url} title="article image"/>
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="div"><Link to={`/articles/${article.article_id}`}>{article.title}</Link></Typography>
+          <Typography variant="body2" color="text-secondary">Written by: {article.author} <LuDot/> Date posted: {date}</Typography>
+        </CardContent>
+        <CardActions>
+          <Button size="small" variant="outlined" href={`/articles/${article.article_id}`}>Read Article</Button>
+          <Chip icon={<ForumIcon/>} label={article.comment_count} />
+          <ButtonGroup variant="contained" aria-label="Basic button group">
+            <IconButton onClick={() => handleVoteClick(1)} aria-label="thumbs up" colour="primary" size="small"><ThumbUpAltIcon /></IconButton><p>{votes}</p>
+            <IconButton onClick={() => handleVoteClick(-1)} aria-label="thumbs down" colour="secondary" size="small"><ThumbDownAltIcon /></IconButton>
+          </ButtonGroup>
+        </CardActions>
       </Card>
       {error ? (
           <p>
@@ -65,6 +47,7 @@ export default function ArticleCard({ article }) {
             {error}
           </p>
         ) : null}
+        <br/>
     </div>
   );
 }

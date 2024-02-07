@@ -1,6 +1,7 @@
-import { Card, Stack, Badge, Button } from "react-bootstrap";
 import { LuDot } from "react-icons/lu";
-import { FaRegArrowAltCircleUp, FaRegArrowAltCircleDown } from "react-icons/fa";
+import { Card, CardActions, CardContent, CardHeader, Typography, ButtonGroup, IconButton } from "@mui/material";
+import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
+import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 
 export default function CommentCard({ comment }) {
   const dateCreated = new Date(comment.created_at);
@@ -9,18 +10,18 @@ export default function CommentCard({ comment }) {
   return (
     <div>
       <Card>
-        <Card.Header>
-          {comment.author} <LuDot /> {date}
-        </Card.Header>
-        <Card.Body>
-          <Card.Text>{comment.body}</Card.Text>
-          <Stack direction="horizontal" gap={2}>
-            <Badge bg="primary">
-            <Button size="sm"><FaRegArrowAltCircleUp /></Button> {comment.votes} <Button size="sm"><FaRegArrowAltCircleDown /></Button>
-            </Badge>
-          </Stack>
-        </Card.Body>
+        <CardHeader subheader={<>{comment.author} <LuDot/> {date}</>}/>
+        <CardContent>
+        <Typography variant="body1" >{comment.body}</Typography>
+        </CardContent>
+        <CardActions>
+        <ButtonGroup variant="contained" aria-label="Basic button group">
+            <IconButton aria-label="thumbs up" colour="primary" size="small"><ThumbUpAltIcon /></IconButton><p>{comment.votes}</p>
+            <IconButton aria-label="thumbs down" colour="secondary" size="small"><ThumbDownAltIcon /></IconButton>
+          </ButtonGroup>
+        </CardActions>
       </Card>
+      <br/>
     </div>
   );
 }

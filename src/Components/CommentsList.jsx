@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { getComments } from "../utils";
 import CommentCard from "./CommentCard";
-import { Card } from "react-bootstrap";
+import { Card, CardContent } from "@mui/material";
+import { CircularProgress } from "@mui/material";
+import { TfiFaceSad } from "react-icons/tfi";
 
 export default function CommentsList({ article_id }) {
   const [comments, setComments] = useState([]);
@@ -23,8 +25,7 @@ export default function CommentsList({ article_id }) {
   if (isLoading) {
     return (
       <>
-        <Spinner animation="border" variant="dark" />
-        <p>Loading...</p>
+        <CircularProgress/><p>Loading...</p>
       </>
     );
   }
@@ -41,21 +42,17 @@ export default function CommentsList({ article_id }) {
   return (
     <>
       <h3>Comments</h3>
-      <ul>
         {comments.length ? (
           comments.map((comment) => {
             return (
-              <li key={comment.comment_id}>
-                <CommentCard comment={comment} />
-              </li>
+                <CommentCard key={comment.comment_id} comment={comment} />
             );
           })
         ) : (
           <Card>
-            <Card.Body>No comments...</Card.Body>
+            <CardContent>No comments...</CardContent>
           </Card>
         )}
-      </ul>
     </>
   );
 }
