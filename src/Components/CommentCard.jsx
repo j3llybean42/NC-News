@@ -5,7 +5,7 @@ import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 
 export default function CommentCard({ comment }) {
   const dateCreated = new Date(comment.created_at);
-  const date = dateCreated.toLocaleDateString();
+  const date = dateCreated.toLocaleString();
 
   return (
     <div>

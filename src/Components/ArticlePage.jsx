@@ -120,7 +120,7 @@ export default function ArticlePage() {
       ) : null}
       <br/>
       <div>
-        <CommentsList article_id={article_id} />
+        <CommentsList article_id={article_id} setCurrentArticle={setCurrentArticle}/>
       </div>
     </>
   );
