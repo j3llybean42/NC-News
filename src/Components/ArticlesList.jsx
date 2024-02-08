@@ -3,14 +3,17 @@ import { getArticles } from "../utils"
 import ArticleCard from "./ArticleCard"
 import { TfiFaceSad } from "react-icons/tfi";
 import { CircularProgress } from "@mui/material";
+import { useSearchParams } from "react-router-dom";
 
 export default function ArticlesList({articles, setArticles}) {
     const [isError, setIsError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [searchParams, setSearchParams] = useSearchParams()
+    const topic = searchParams.get('topic')
 
     useEffect(() => {
         setIsLoading(true)
-        getArticles().then((data) => {
+        getArticles({params: {topic}}).then((data) => {
             setIsLoading(false)
             const {articles} = data
             setArticles(articles)
@@ -19,7 +22,7 @@ export default function ArticlesList({articles, setArticles}) {
             setIsLoading(false)
             setIsError(true)
         })
-    }, [])
+    }, [topic])
 
     if(isLoading) {
         return (
