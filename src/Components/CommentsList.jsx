@@ -4,8 +4,9 @@ import CommentCard from "./CommentCard";
 import { Card, CardContent } from "@mui/material";
 import { CircularProgress } from "@mui/material";
 import { TfiFaceSad } from "react-icons/tfi";
+import CommentAdder from "./CommentAdder";
 
-export default function CommentsList({ article_id }) {
+export default function CommentsList({ article_id, setCurrentArticle }) {
   const [comments, setComments] = useState([]);
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -42,6 +43,7 @@ export default function CommentsList({ article_id }) {
   return (
     <>
       <h3>Comments</h3>
+      <CommentAdder setComments={setComments} article_id={article_id} setCurrentArticle={setCurrentArticle}/>
         {comments.length ? (
           comments.map((comment) => {
             return (
