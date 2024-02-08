@@ -29,3 +29,7 @@ export function patchArticle(article_id, request){
 export function postComment(article_id, request){
     return ncNewsAPI.post(`/articles/${article_id}/comments`, request)
 }
+
+export function deleteComment(comment_id){
+    return ncNewsAPI.delete(`/comments/${comment_id}`)
+}

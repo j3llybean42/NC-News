@@ -47,7 +47,7 @@ export default function CommentsList({ article_id, setCurrentArticle }) {
         {comments.length ? (
           comments.map((comment) => {
             return (
-                <CommentCard key={comment.comment_id} comment={comment} />
+                <CommentCard key={comment.comment_id} comment={comment} setComments={setComments} setCurrentArticle={setCurrentArticle}/>
             );
           })
         ) : (
