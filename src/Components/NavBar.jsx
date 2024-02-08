@@ -1,9 +1,10 @@
-import { AppBar, Box, Button, Toolbar, Typography } from '@mui/material';
+import { AppBar, Box, Button, Toolbar} from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import { useContext } from 'react';
 import { UserContext } from '../contexts/UserContext';
+import TopicSelect from './TopicSelect';
 
-export default function NavBar() {
+export default function NavBar({topics, setTopics}) {
   const {user} = useContext(UserContext)
 
   return (
@@ -13,7 +14,8 @@ export default function NavBar() {
           <Toolbar>
             <Button color="inherit" href="/">Home</Button>
             <Button color="inherit" href="/articles">All Articles</Button>
-            <Button variant="outlined" color="inherit" startIcon={<PersonIcon/>}>{user ? user.username : "Login"}</Button>
+            <TopicSelect topics={topics} setTopics={setTopics}/>
+            <Button size="medium" variant="outlined" color="inherit" startIcon={<PersonIcon/>}>{user ? `Signed in as: ${user.username}` : "Login"}</Button>
           </Toolbar>
         </AppBar>
       </Box>

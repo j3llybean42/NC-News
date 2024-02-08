@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link} from "react-router-dom";
 import { patchArticle } from "../utils";
 import { LuDot } from "react-icons/lu";
 import { TfiFaceSad } from "react-icons/tfi";
@@ -19,13 +19,10 @@ import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
 import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
-import { UserContext } from "../contexts/UserContext";
 
 export default function ArticleCard({ article }) {
-  const { user } = useContext(UserContext);
   const dateCreated = new Date(article.created_at);
   const date = dateCreated.toLocaleDateString();
-  const navigate = useNavigate();
   const [votes, setVotes] = useState(article.votes);
   const [error, setError] = useState(null);
   const [userVote, setUserVote] = useState(null);
@@ -54,7 +51,7 @@ export default function ArticleCard({ article }) {
             <Link to={`/articles/${article.article_id}`}>{article.title}</Link>
           </Typography>
           <Typography variant="body2" color="text-secondary">
-            Written by: {article.author} <LuDot /> Date posted: {date}
+            Written by: {article.author} <LuDot /> Date posted: {date} <LuDot /> Topic: {article.topic}
           </Typography>
         </CardContent>
         <CardActions>
