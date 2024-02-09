@@ -5,11 +5,13 @@ import { TfiFaceSad } from "react-icons/tfi";
 import { CircularProgress } from "@mui/material";
 import { useSearchParams } from "react-router-dom";
 import ArticleSort from "./ArticleSort";
+import ErrorHandler from "./ErrorHandler";
 
 export default function ArticlesList({articles, setArticles, topics}) {
     const [isError, setIsError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [searchParams] = useSearchParams()
+    const [error, setError] = useState(null)
 
     const topicQuery = searchParams.get('topic')
     const sortQuery = searchParams.get('sort_by')
@@ -22,9 +24,10 @@ export default function ArticlesList({articles, setArticles, topics}) {
             const {articles} = data
             setArticles(articles)
         })
-        .catch(() => {
+        .catch((err) => {
             setIsLoading(false)
             setIsError(true)
+            setError(err)
         })
     }, [topicQuery, sortQuery, orderQuery])
 
@@ -37,7 +40,7 @@ export default function ArticlesList({articles, setArticles, topics}) {
     if(isError) {
         return(
             <>
-            <TfiFaceSad /><p>Something went wrong! Please try again.</p>
+            <ErrorHandler code={error.response.status} msg={error.response.data.msg}/>
             </>
         )
     }

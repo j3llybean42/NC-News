@@ -40,9 +40,9 @@ export default function ArticlePage() {
     setError(null);
     setVotes((currentVotes) => currentVotes + vote);
     patchArticle(currentArticle.article_id, { inc_votes: vote }).catch(
-      (error) => {
+      (err) => {
         setVotes((currentVotes) => currentVotes - vote);
-        setError("Something went wrong! Please try again");
+        setError(err);
         setUserVote(null);
       }
     );
@@ -60,8 +60,7 @@ export default function ArticlePage() {
   if (isError) {
     return (
       <>
-        <TfiFaceSad />
-        <p>Something went wrong! Please try again.</p>
+        <ErrorHandler code={error.response.status} msg={error.response.data.msg}/>
       </>
     );
   }
