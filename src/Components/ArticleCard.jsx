@@ -39,7 +39,7 @@ export default function ArticleCard({ article }) {
   }
 
   return (
-    <div>
+    <>
       <Card>
         <CardMedia
           sx={{ height: 200 }}
@@ -94,6 +94,6 @@ export default function ArticleCard({ article }) {
         </p>
       ) : null}
       <br />
-    </div>
+    </>
   );
 }

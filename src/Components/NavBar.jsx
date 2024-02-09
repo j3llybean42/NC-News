@@ -15,7 +15,7 @@ export default function NavBar({topics, setTopics}) {
             <Button color="inherit" href="/">Home</Button>
             <Button color="inherit" href="/articles">All Articles</Button>
             <TopicSelect topics={topics} setTopics={setTopics}/>
-            <Button size="medium" variant="outlined" color="inherit" startIcon={<PersonIcon/>}>{user ? `Signed in as: ${user.username}` : "Login"}</Button>
+            <Button size="small" variant="outlined" color="inherit" startIcon={<PersonIcon/>}>{user ? `User: ${user.username}` : "Login"}</Button>
           </Toolbar>
         </AppBar>
       </Box>

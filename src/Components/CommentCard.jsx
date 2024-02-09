@@ -9,15 +9,33 @@ import {
   IconButton,
 } from "@mui/material";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
+import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
+import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
 import DeleteComment from "./DeleteComment";
+import { patchComment } from "../utils";
+import { useState } from "react";
 
 export default function CommentCard({ comment, setComments, setCurrentArticle }) {
   const dateCreated = new Date(comment.created_at);
   const date = dateCreated.toLocaleString();
+  const [votes, setVotes] = useState(comment.votes);
+  const [error, setError] = useState(null);
+  const [userVote, setUserVote] = useState(null);
+
+  function handleVoteClick(vote) {
+    setUserVote(!userVote ? vote : null);
+    setError(null);
+    setVotes((currentVotes) => currentVotes + vote);
+    patchComment(comment.comment_id, { inc_votes: vote }).catch((error) => {
+      setVotes((currentVotes) => currentVotes - vote);
+      setError("Something went wrong! Please try again");
+      setUserVote(null);
+    });
+  }
 
   return (
-    <div>
+    <>
       <Card>
         <CardHeader
           subheader={
@@ -31,22 +49,31 @@ export default function CommentCard({ comment, setComments, setCurrentArticle })
         </CardContent>
         <CardActions>
           <ButtonGroup variant="contained" aria-label="Basic button group">
-            <IconButton aria-label="thumbs up" colour="primary" size="small">
-              <ThumbUpAltIcon />
+          <IconButton
+              onClick={() => handleVoteClick(userVote ? -1 : 1)}
+              aria-label={userVote === 1 ? "remove vote up" : "vote up"}
+              disabled={userVote === -1 ? true : false}
+              colour="primary"
+              size="small"
+            >
+              {userVote === 1 ? (<ThumbUpAltIcon />) : (<ThumbUpOffAltIcon/>)}
+              
             </IconButton>
-            <p>{comment.votes}</p>
+            <p>{votes}</p>
             <IconButton
-              aria-label="thumbs down"
+              onClick={() => handleVoteClick(userVote ? 1 : -1)}
+              aria-label={userVote === -1 ? "remove vote down" : "vote down"}
+              disabled={userVote === 1 ? true : false}
               colour="secondary"
               size="small"
             >
-              <ThumbDownAltIcon />
+             {userVote === -1 ? (<ThumbDownAltIcon />) : (<ThumbDownOffAltIcon />)}
             </IconButton>
           </ButtonGroup>
           <DeleteComment comment={comment} setComments={setComments} setCurrentArticle={setCurrentArticle}/>
         </CardActions>
       </Card>
       <br />
-    </div>
+    </>
   );
 }

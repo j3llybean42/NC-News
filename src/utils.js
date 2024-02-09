@@ -39,3 +39,7 @@ export function getTopics(){
         return response.data
     })
 }
+
+export function patchComment(comment_id, request){
+    return ncNewsAPI.patch(`/comments/${comment_id}`, request)
+}
