@@ -2,7 +2,7 @@
 
 This is a Social Media platform, designed to allow users to post, comment and vote on a variety of content about multiple topics.
 
-* Deployed at: https://am-mc-news.netlify.app/
+* Deployed at: https://am-nc-news.netlify.app/
     * Will be given a default User
     * Bear with for a few moments upon opening, to give the API time to warm up!
 * The Back-End for this project can be found at: https://github.com/j3llybean42/be-nc-news
