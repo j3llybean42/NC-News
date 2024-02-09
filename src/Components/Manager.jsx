@@ -14,8 +14,8 @@ export default function Manager() {
     <>
       <NavBar topics={topics} setTopics={setTopics}/>
       <Routes>
-        <Route path="/" element={<HomePage />}/>
-        <Route path="/articles" element={<ArticlesList articles={articles} setArticles={setArticles}/>}/>
+        <Route path="/" element={<HomePage articles={articles}/>}/>
+        <Route path="/articles" element={<ArticlesList articles={articles} setArticles={setArticles} topics={topics}/>}/>
         <Route path="/articles/:article_id" element={<ArticlePage />}/>
         <Route path="/topics" element={<TopicsPage topics={topics} />}/>
       </Routes>

@@ -24,7 +24,7 @@ export default function TopicSelect({ topics, setTopics}) {
       const { topics } = data;
       setTopics(topics);
     });
-  });
+  }, []);
 
   function handleToggle() {
     setIsOpen((prevOpen) => !prevOpen)
